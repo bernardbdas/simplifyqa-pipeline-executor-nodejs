@@ -25,7 +25,7 @@ jobs:
       name: Checkout Source Code
       uses: actions/checkout@v4
       with:
-       repository: ${{ vars.GIT_USERNAME }}/${{ vars.REPO_NAME }}
+       repository: ${{ vars.GIT_USERNAME }}/${{ vars.GIT_REPO_NAME }}
        token: ${{ secrets.REPO_TOKEN }}
     -
       name: Upload build artifacts
