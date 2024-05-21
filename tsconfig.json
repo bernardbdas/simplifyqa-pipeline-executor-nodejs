@@ -1,0 +1,89 @@
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES6",
+    // "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    /* Strictness: */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    /* If transpiling with Typescript: */
+    // "moduleResolution": "Node",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "sourceMap": true,
+    /* If NOT transpiling with Typescript: */
+    // "moduleResolution": "Bundler",
+    // "module": "ESNext",
+    // "noEmit": true,
+    /* If your code runs in the DOM: */
+    // "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    /* If your code runs in the DOM: */
+    "lib": [
+      "ES2022"
+    ],
+    /* If you're building for a library: */
+    "declaration": true,
+    /* If you're building for a library in a monorepo: */
+    "composite": true,
+    "declarationMap": true,
+    /* Specify the base directory to resolve non-relative module names. */
+    "baseUrl": "./src",
+    "paths": {
+      "@config": [
+        "config/*"
+      ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
+      "@dtos/*": [
+        "dtos/*"
+      ],
+      "@exceptions/*": [
+        "exceptions/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@middlewares/*": [
+        "middlewares/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+    },
+    "plugins": [
+      // Transform paths in output .js files
+      {
+        "transform": "typescript-transform-paths"
+      },
+      // Transform paths in output .d.ts files (Include this line if you output declarations files)
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ],
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+    /* Type Checking */
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.json",
+    ".env"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/http",
+    "src/logs"
+  ]
+}

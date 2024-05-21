@@ -1,0 +1,74 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "758ae37f-7928-4dcd-8f2c-fbd047627e02",
+  "name": "simplifyqa-pipeline-executor",
+  "friendlyName": "SIMPLIFYQA PIPELINE CONNECTOR",
+  "description": "Connector/Extension to use in conjunction with SimplifyQA Pipelines",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "SIMPLIFY3X SOFTWARE PRIVATE LIMITED",
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "groups": [
+    {
+      "name": "inputGroup",
+      "displayName": "Input Variables",
+      "isExpanded": true
+    },
+    {
+      "name": "outputGroup",
+      "displayName": "Output",
+      "isExpanded": true
+    }
+  ],
+  "instanceNameFormat": "Echo $(EXECTOKEN)",
+  "inputs": [
+    {
+      "name": "EXECTOKEN",
+      "type": "string",
+      "label": "Execution Token:",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Execution Token from SimplifyQA Pipeline",
+      "groupName": "inputGroup"
+    },
+    {
+      "name": "APPURL",
+      "type": "string",
+      "label": "App Url:",
+      "defaultValue": "https://simplifyqa.app",
+      "required": true,
+      "helpMarkDown": "Environment to which the suite and pipeline belongs \n(default: production-url) \n(Eg: demo, qa, etc.)",
+      "groupName": "inputGroup"
+    },
+    {
+      "name": "THRESHOLD",
+      "type": "int",
+      "label": "Threshold (in percentage):",
+      "defaultValue": "100",
+      "minimum": 0,
+      "maximum": 100,
+      "required": true,
+      "helpMarkDown": "Threshold percentage or fail percentage, when achieved the execution will be killed automatically and marked as failed \n(default: 100%)\n(Ranges from 0.00% to 100.00%)",
+      "groupName": "inputGroup"
+    },
+    {
+      "name": "VERBOSE",
+      "type": "boolean",
+      "label": "Verbose Flag:",
+      "defaultValue": false,
+      "required": true,
+      "helpMarkDown": "Flag variable to print request and response bodies in the console output logs \n(default: false)",
+      "groupName": "inputGroup"
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "./dist/src/index.js",
+      "argumentFormat": ""
+    }
+  }
+}
