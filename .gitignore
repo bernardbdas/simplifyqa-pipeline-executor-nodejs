@@ -1,6 +1,8 @@
+.vscode/
+.trunk/
+
 dist/
 node_modules/
-.dockerignore
+
 .env
 .env.*
-.trunk/
