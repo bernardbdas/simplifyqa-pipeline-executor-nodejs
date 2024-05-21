@@ -7,10 +7,19 @@ on:
     branches: [ "main" ]
     types: [ "closed" ]
   workflow_dispatch:
+    inputs:
+      runner:
+        description: 'Select Runner'
+        required: true
+        default: 'ubuntu-latest'
+        type: choice
+        options:
+        - ubuntu-latest
+        - self-hosted
 
 jobs:
   build-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     steps:
     -
       name: Checkout Source Code
@@ -25,7 +34,7 @@ jobs:
     - run: npm run build
     
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     steps:
     -
       name: Set up Docker Buildx
