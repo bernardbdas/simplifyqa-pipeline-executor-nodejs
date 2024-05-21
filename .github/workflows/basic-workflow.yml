@@ -37,7 +37,7 @@ jobs:
         path: .
         retention-days: 90
         compression-level: 9
-        token: ${{ secrets.REPO_TOKEN }}
+        overwrite: false
     -
       name: Output artifact ID
       run:  echo 'Artifact ID is ${{ steps.upload-artifact-step.outputs.artifact-id }}'
