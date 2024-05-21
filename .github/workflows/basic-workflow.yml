@@ -32,7 +32,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifacts
-        github-token: ${{ secrets.REPO_TOKEN }}
         path: .
         
   build:
