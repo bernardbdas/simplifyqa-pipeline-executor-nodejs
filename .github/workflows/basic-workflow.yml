@@ -19,7 +19,7 @@ on:
 
 jobs:
   fetch:
-    runs-on: ${{ github.event.inputs.runner || ubuntu-latest }}
+    runs-on: ${{ github.event.inputs.runner || 'ubuntu-latest' }}
     steps:
     -
       name: Checkout Source Code
@@ -44,7 +44,7 @@ jobs:
         
   build:
     needs: fetch
-    runs-on: ${{ github.event.inputs.runner || ubuntu-latest }}
+    runs-on: ${{ github.event.inputs.runner || 'ubuntu-latest' }}
     steps:
     -
       name: Download build artifacts
@@ -64,7 +64,7 @@ jobs:
     
   deploy:
     needs: build
-    runs-on: ${{ github.event.inputs.runner || ubuntu-latest }}
+    runs-on: ${{ github.event.inputs.runner || 'ubuntu-latest' }}
     steps:
     -
       name: Download build artifacts
