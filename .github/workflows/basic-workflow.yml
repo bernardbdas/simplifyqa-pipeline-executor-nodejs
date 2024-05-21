@@ -19,7 +19,7 @@ on:
 
 jobs:
   build-test:
-    runs-on: [ "ubuntu-latest", "${{ inputs.runner }}" ]
+    runs-on: ubuntu-latest
     steps:
     -
       name: Checkout Source Code
@@ -37,7 +37,7 @@ jobs:
     - run: npm run build
     
   deploy:
-    runs-on: [ "ubuntu-latest", "${{ inputs.runner }}" ]
+    runs-on: ubuntu-latest
     steps:
     -
       name: Set up Docker Buildx
