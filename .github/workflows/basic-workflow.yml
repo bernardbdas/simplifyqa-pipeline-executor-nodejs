@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-latest
     steps:
     -
@@ -23,7 +23,7 @@ jobs:
     - run: npm ci
     - run: npm run build
     
-  docker:
+  deploy:
     runs-on: ubuntu-latest
     steps:
     -
