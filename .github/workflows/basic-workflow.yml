@@ -25,7 +25,6 @@ jobs:
       name: Checkout Source Code
       uses: actions/checkout@v4
       with:
-        if-no-files-found: error
         repository: ${{ vars.GIT_USERNAME }}/${{ vars.GIT_REPO_NAME }}
         token: ${{ secrets.REPO_TOKEN }}
         
