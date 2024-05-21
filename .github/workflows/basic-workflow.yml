@@ -27,7 +27,6 @@ jobs:
       with:
         repository: ${{ vars.GIT_USERNAME }}/${{ vars.GIT_REPO_NAME }}
         token: ${{ secrets.REPO_TOKEN }}
-        
     -
       name: Upload build artifacts
       id: upload-artifact-step
@@ -38,9 +37,10 @@ jobs:
         path: .
         retention-days: 90
         compression-level: 9
+        token: ${{ secrets.REPO_TOKEN }}
     -
       name: Output artifact ID
-      run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+      run:  echo 'Artifact ID is ${{ steps.upload-artifact-step.outputs.artifact-id }}'
         
   build:
     needs: fetch
