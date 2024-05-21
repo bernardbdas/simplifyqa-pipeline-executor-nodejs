@@ -1,5 +1,7 @@
 # SimplifyQA Pipeline Executor
 
+[![SimplifyQA Pipeline Executor Workflow](https://github.com/bernardbdas/simplifyqa-pipeline-executor-nodejs/actions/workflows/basic-workflow.yml/badge.svg)](https://github.com/bernardbdas/simplifyqa-pipeline-executor-nodejs/actions/workflows/basic-workflow.yml)
+
 This guide provides instructions on using the `simplifyqa-pipeline-executor` Docker image to execute pipelines for the SimplifyQA application.
 
 ## Table of Contents
