@@ -1,7 +1,12 @@
 FROM node:lts-alpine3.20 as simplifyqa-pipeline-executor
-RUN useradd -r 1001
+RUN adduser -D -u 1001 appuser
 WORKDIR /app
+COPY package*.json ./
+RUN npm ci
 COPY . .
+RUN npm run build
+FROM node:lts-alpine3.20
+COPY --from=simplifyqa-pipeline-executor /app /app
 USER 1001
-RUN npm ci && npm run build
+WORKDIR /app
 HEALTHCHECK NONE
