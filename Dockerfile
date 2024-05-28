@@ -1,5 +1,7 @@
-FROM node:latest as simplifyqa-pipeline-executor
+FROM node:lts-alpine3.20 as simplifyqa-pipeline-executor
+RUN useradd -r 1001
 WORKDIR /app
 COPY . .
-RUN npm install
-RUN npm run build
+USER 1001
+RUN npm ci && npm run build
+HEALTHCHECK NONE
