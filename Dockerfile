@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.20 as simplifyqa-pipeline-executor
+FROM node:22.2.0-alpine as simplifyqa-pipeline-executor
 RUN adduser -D -u 1001 appuser
 WORKDIR /app
 COPY package*.json ./
