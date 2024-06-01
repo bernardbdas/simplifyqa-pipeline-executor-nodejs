@@ -70,7 +70,7 @@ services:
       INPUT_EXECTOKEN: U2FsdGVkX18vNvpp************************************************************************
       INPUT_APPURL: https://simplifyqa.app
       INPUT_THRESHOLD: 40
-      INPUT_VERBOSE: "true"
+      INPUT_VERBOSE: true
 ```
 
 Update the environment variables in the `docker-compose.yml` file according to your requirements. Refer to the [Environment Variables](#environment-variables) section for details.
@@ -99,7 +99,7 @@ environment:
   INPUT_EXECTOKEN: U2FsdGVkX18vNvpp************************************************************************
   INPUT_APPURL: https://simplifyqa.app
   INPUT_THRESHOLD: 40
-  INPUT_VERBOSE: "true"
+  INPUT_VERBOSE: true
 
 ```
 
@@ -116,7 +116,7 @@ services:
       INPUT_EXECTOKEN: U2FsdGVkX18vNvpp*****************************************************************
       INPUT_APPURL: https://simplifyqa.app
       INPUT_THRESHOLD: 40
-      INPUT_VERBOSE: "true"
+      INPUT_VERBOSE: true
 ```
 
 ## Stopping the Service
