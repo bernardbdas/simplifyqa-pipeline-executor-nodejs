@@ -1,14 +1,10 @@
-name: simplifyqa-pipeline-executor
 services:
   simplifyqa-pipeline-executor:
     container_name: simplifyqa-pipeline-executor
-    # image: bernardbdas/simplifyqa-pipeline-executor
+    image: bernardbdas/simplifyqa-pipeline-executor:latest
     build:
       context: .
       dockerfile: Dockerfile
     env_file:
       - path: .env
         required: false
-    command: >
-      sh -c "node ./dist/src/index.js"
-    working_dir: /app
