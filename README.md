@@ -62,8 +62,6 @@ docker run --name simplifyqa-pipeline-executor \
 Create a `docker-compose.yml` file with the following content:
 
 ```yaml
-version: '3.8'
-
 services:
   simplifyqa-pipeline-executor:
     container_name: simplifyqa-pipeline-executor
@@ -73,9 +71,6 @@ services:
       INPUT_APPURL: https://simplifyqa.app
       INPUT_THRESHOLD: 40
       INPUT_VERBOSE: "true"
-    command: >
-      sh -c "node ./dist/src/index.js"
-    working_dir: /app
 ```
 
 Update the environment variables in the `docker-compose.yml` file according to your requirements. Refer to the [Environment Variables](#environment-variables) section for details.
@@ -113,8 +108,6 @@ environment:
 Below is the complete `docker-compose.yml` file used to configure and run the `simplifyqa-pipeline-executor` Docker image.
 
 ```yaml
-version: '3.8'
-
 services:
   simplifyqa-pipeline-executor:
     container_name: simplifyqa-pipeline-executor
