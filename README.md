@@ -136,4 +136,6 @@ For more information on using Docker and Docker Compose, refer to the official d
 - [Docker Documentation](https://docs.docker.com/)
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 
-If you encounter any issues or have questions, please open an issue in the repository or contact the maintainer.
+If you encounter any issues or have questions, please open an issue in the [repository](https://github.com/bernardbdas/simplifyqa-pipeline-executor-nodejs) or contact one of the maintainers mentioned below:
+
+- [@bernardbdas](https://github.com/bernardbdas)
