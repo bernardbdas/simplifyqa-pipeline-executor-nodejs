@@ -1,0 +1,10 @@
+.git/
+.vscode/
+.trunk/
+
+dist/
+node_modules/
+
+.env
+.env.*
+*.md

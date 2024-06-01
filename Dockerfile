@@ -1,12 +1,6 @@
-FROM node:22.2.0-alpine as simplifyqa-pipeline-executor
-RUN adduser -D -u 1001 appuser
+FROM node:lts-alpine as simplifyqa-pipeline-executor
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
 COPY . .
-RUN npm run build
-FROM node:22.2.0-alpine
-COPY --from=simplifyqa-pipeline-executor /app /app
-USER 1001
-WORKDIR /app
+RUN npm ci && npm run build
+CMD ["node", "./dist/src/index.js"]
 HEALTHCHECK NONE

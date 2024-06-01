@@ -49,15 +49,12 @@ docker pull bernardbdas/simplifyqa-pipeline-executor
 Run the Docker container using the `docker run` command. Make sure to replace the environment variable values with your actual configuration.
 
 ```sh
-docker run -d \
-  --name simplifyqa-pipeline-executor \
+docker run --name simplifyqa-pipeline-executor \
   -e INPUT_EXECTOKEN=U2FsdGVkX18vNvpp************************************************************************ \
   -e INPUT_APPURL=https://simplifyqa.app \
   -e INPUT_THRESHOLD=40 \
   -e INPUT_VERBOSE=true \
-  -w /app \
-  bernardbdas/simplifyqa-pipeline-executor \
-  sh -c "node ./dist/src/index.js"
+  bernardbdas/simplifyqa-pipeline-executor:latest
 ```
 
 #### Using a `docker-compose.yml` File
@@ -127,9 +124,6 @@ services:
       INPUT_APPURL: https://simplifyqa.app
       INPUT_THRESHOLD: 40
       INPUT_VERBOSE: "true"
-    command: >
-      sh -c "node ./dist/src/index.js"
-    working_dir: /app
 ```
 
 ## Stopping the Service
