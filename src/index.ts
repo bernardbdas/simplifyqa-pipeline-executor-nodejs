@@ -69,7 +69,7 @@ async function run() {
     }
     logger.info("\n");
     logger.info(
-      "**************************************SIMPLIFYQA PIPELINE CONNECTOR**************************************"
+      "**************************************  SIMPLIFYQA PIPELINE EXECUTOR  **************************************"
     );
     logger.info("\n\n\nThe Set Parameters are:");
     // logger.info( "=".repeat(105));
