@@ -10,7 +10,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 0
+    "Patch": 1
   },
   "groups": [
     {
@@ -53,6 +53,7 @@
       "maximum": 100,
       "required": true,
       "helpMarkDown": "Threshold percentage or fail percentage, when achieved the execution will be killed automatically and marked as failed \n(default: 100%)\n(Ranges from 0.00% to 100.00%)",
+      
       "groupName": "inputGroup"
     },
     {

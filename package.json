@@ -10,10 +10,10 @@
   "author": "SIMPLIFY3X SOFTWARE PRIVATE LIMITED",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.13.0",
+    "@types/node": "^20.14.6",
     "@types/q": "^1.5.8",
     "axios": "^1.7.2",
-    "ts-patch": "^3.1.2",
+    "ts-patch": "^3.2.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5",
     "typescript-transform-paths": "^3.4.7"

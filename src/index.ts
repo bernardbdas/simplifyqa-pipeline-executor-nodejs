@@ -278,7 +278,10 @@ async function run() {
       logger.info(`${exec_fail_status_msg}`);
       task_obj.setResult(task_obj.TaskResult.Failed, " Execution Failed!");
       resFlag = false;
-      let kill_status: any = await exec_obj.killExec();
+
+      let kill_status: any = null;
+      if (100.0 <= exec_obj.getFailPercent())
+        kill_status = await exec_obj.killExec();
 
       if (kill_status === null) {
         logger.info(
