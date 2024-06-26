@@ -1,7 +1,8 @@
 services:
   simplifyqa-pipeline-executor:
     container_name: simplifyqa-pipeline-executor
-    image: bernardbdas/simplifyqa-pipeline-executor:latest
+    # image: docker.io/bernardbdas/simplifyqa-pipeline-executor:latest
+    image: simplifyqa-pipeline-executor
     build:
       context: .
       dockerfile: Dockerfile
