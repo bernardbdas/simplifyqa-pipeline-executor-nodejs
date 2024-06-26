@@ -9,14 +9,14 @@ FROM node:lts-alpine as simplifyqa-pipeline-executor
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json files to the container
-COPY package*.json ./
+# Copy the application files to the container
+COPY . .
 
 # Install the dependencies
 RUN npm install
 
-# Copy the rest of the application files to the container
-COPY . .
+# Build from source
+RUN npm run build
 
 # Specify environment variables (these can be overridden at runtime)
 ENV INPUT_EXEC_TOKEN=${EXEC_TOKEN}

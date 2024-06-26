@@ -2,9 +2,9 @@ name: SimplifyQA Pipeline Executor Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "stable" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "stable" ]
     types: [ "closed" ]
   workflow_dispatch:
     inputs:
@@ -88,4 +88,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_IMAGE_NAME }}:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_IMAGE_NAME }}:stable
