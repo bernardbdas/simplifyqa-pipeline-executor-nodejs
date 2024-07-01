@@ -7,8 +7,7 @@ image_resource:
 inputs:
   - name: executor-src
 caches:
-  - path: executor-src/node_modules
-  - path: executor-src/dist
+  - path: executor-src
 run:
   path: sh
   args:
