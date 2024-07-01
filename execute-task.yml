@@ -15,7 +15,7 @@ params:
   INPUT_THRESHOLD: ""
   INPUT_VERBOSE: ""
 run:
-  path: bash
+  path: sh
   args:
     - -c
     - |
