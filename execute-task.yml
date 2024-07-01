@@ -15,9 +15,9 @@ params:
   INPUT_THRESHOLD: ""
   INPUT_VERBOSE: ""
 run:
-  path: sh
+  path: bash
   args:
-    - -exc
+    - -c
     - |
       cd executor-src
       # Ensure node_modules is populated
