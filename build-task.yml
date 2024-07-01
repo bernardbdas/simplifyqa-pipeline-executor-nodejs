@@ -10,9 +10,9 @@ caches:
   - path: executor-src/node_modules
   - path: executor-src/dist
 run:
-  path: bash
+  path: sh
   args:
-    - -c
+    - -exc
     - |
       cd executor-src
       npm install
