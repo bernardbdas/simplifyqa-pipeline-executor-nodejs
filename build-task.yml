@@ -1,0 +1,19 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: node
+    tag: lts-alpine
+inputs:
+  - name: executor-src
+caches:
+  - path: executor-src/node_modules
+  - path: executor-src/dist
+run:
+  path: bash
+  args:
+    - -c
+    - |
+      cd executor-src
+      npm install
+      npm run build
