@@ -6,8 +6,9 @@ image_resource:
     tag: lts-alpine
 inputs:
   - name: executor-src
-caches:
-  - path: executor-src
+outputs:
+  - name: build-artifact
+    path: executor-src
 run:
   path: sh
   args:

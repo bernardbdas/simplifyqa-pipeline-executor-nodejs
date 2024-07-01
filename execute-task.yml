@@ -5,20 +5,16 @@ image_resource:
     repository: node
     tag: lts-alpine
 inputs:
-  - name: executor-src
-caches:
-  - path: executor-src
-params:
-  INPUT_EXECTOKEN: ""
-  INPUT_APPURL: ""
-  INPUT_THRESHOLD: ""
-  INPUT_VERBOSE: ""
+  - name: build-artifact
 run:
   path: sh
   args:
     - -c
     - |
-      cd executor-src
-      # Ensure node_modules is populated
-      if [ ! -d "node_modules" ]; then npm install; fi
-      npm start
+      cd build-artifact
+      node ./dist/src/index.js
+params:
+  INPUT_EXECTOKEN: ""
+  INPUT_APPURL: ""
+  INPUT_THRESHOLD: ""
+  INPUT_VERBOSE: ""
