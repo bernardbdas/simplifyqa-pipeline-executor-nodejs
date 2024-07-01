@@ -6,6 +6,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    # environment:
+    #   INPUT_EXECTOKEN: $EXECTOKEN
+    #   INPUT_APPURL: $APPURL
+    #   INPUT_THRESHOLD: $THRESHOLD
+    #   INPUT_VERBOSE: $VERBOSE
     env_file:
       - path: .env
-        required: false
+        required: true
