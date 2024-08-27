@@ -1,16 +1,11 @@
 services:
   simplifyqa-pipeline-executor:
     container_name: simplifyqa-pipeline-executor
-    # image: docker.io/bernardbdas/simplifyqa-pipeline-executor:latest
+    # image: bernardbdas/simplifyqa-pipeline-executor:latest
     image: simplifyqa-pipeline-executor
     build:
       context: .
       dockerfile: Dockerfile
-    # environment:
-    #   INPUT_EXECTOKEN: $EXECTOKEN
-    #   INPUT_APPURL: $APPURL
-    #   INPUT_THRESHOLD: $THRESHOLD
-    #   INPUT_VERBOSE: $VERBOSE
     env_file:
       - path: .env
-        required: true
+        required: false

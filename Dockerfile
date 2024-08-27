@@ -10,7 +10,7 @@ FROM node:lts-alpine as simplifyqa-pipeline-executor
 WORKDIR /app
 
 # Copy the application files to the container
-ADD . .
+COPY . .
 
 # Install the dependencies
 RUN npm install
