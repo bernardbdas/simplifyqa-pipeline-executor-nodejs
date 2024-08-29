@@ -32,5 +32,5 @@ export type {
   getExecStatusData,
   killExecData,
   ExecutionData,
-  HttpResponse,
+  HttpResponse
 };

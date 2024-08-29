@@ -1,5 +1,5 @@
-import { logger } from "@utils/logger.js";
-import { TaskResult } from "azure-pipelines-task-lib";
+import { logger } from '@utils/logger';
+import { TaskResult } from 'azure-pipelines-task-lib';
 
 class ExecutionDriver {
   constructor() {}

@@ -1,22 +1,22 @@
 import {
   startExecData,
   getExecStatusData,
-  killExecData,
-} from "@interfaces/IExecution.js";
-import axios, { AxiosError, AxiosHeaders, AxiosResponse } from "axios";
-import { ConnHandler } from "@services/ConnHandler.service.js";
-import { logger } from "@utils/logger.js";
+  killExecData
+} from '@interfaces/IExecution';
+import axios, { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
+import { ConnHandler } from '@services/ConnHandler.service';
+import { logger } from '@utils/logger';
 
 class ExecutionModel {
   // Pre-Execution Data Members
-  private exec_token: string = "";
-  private app_url: string = "";
-  private build_api: string = "/jenkinsSuiteExecution";
-  private status_api: string = "/getJenkinsExecStatus";
-  private kill_api: string = "/getsession/killExecutionReports";
-  private exec_logs_api: string = "/executionlog";
+  private exec_token: string = '';
+  private app_url: string = '';
+  private build_api: string = '/jenkinsSuiteExecution';
+  private status_api: string = '/getJenkinsExecStatus';
+  private kill_api: string = '/getsession/killExecutionReports';
+  private exec_logs_api: string = '/executionlog';
 
-  private env: string = "";
+  private env: string = '';
   private threshold: number = 100;
   private verbose_flag: boolean = false;
 
@@ -24,13 +24,13 @@ class ExecutionModel {
   private exec_id: number = NaN;
   private project_id: number = NaN;
   private customer_id: number = NaN;
-  private user_name: string = "";
+  private user_name: string = '';
   private user_id: number = NaN;
-  private auth_key: string = "";
+  private auth_key: string = '';
   private retry: boolean = false;
 
   //Log Maintenance
-  private api_logs: string = "";
+  private api_logs: string = '';
 
   //Post-Execution trigger Data Members
   private conn_obj!: ConnHandler;
@@ -47,15 +47,15 @@ class ExecutionModel {
   private tcs_inprogress: number = 0;
   private executed_tcs: number = 0;
   private tcs_failed: number = 0;
-  private report_url: string = "";
+  private report_url: string = '';
 
-  private exec_status: string = "";
+  private exec_status: string = '';
 
   constructor({
     exec_token,
     env,
     threshold,
-    verbose,
+    verbose
   }: {
     exec_token: string;
     env?: string;
@@ -64,9 +64,9 @@ class ExecutionModel {
   }) {
     this.setExecToken(exec_token);
 
-    if ((env != undefined && env.length > 1) || env === "") {
+    if ((env != undefined && env.length > 1) || env === '') {
       this.setEnv(env);
-    } else logger.info("ERR: Invalid Environment value entered!");
+    } else logger.info('ERR: Invalid Environment value entered!');
 
     if (threshold != undefined) this.setThreshold(threshold);
 
@@ -123,7 +123,7 @@ class ExecutionModel {
   }
 
   protected setEnv(env: string): void {
-    if (env === "") this.env = "https://simplifyqa.app";
+    if (env === '') this.env = 'https://simplifyqa.app';
     else this.env = env;
   }
   public getEnv(): string {
@@ -203,8 +203,8 @@ class ExecutionModel {
 
   protected setReqHeader(): void {
     this.request_header.set({
-      "Content-Type": "application/json",
-      Authorization: this.auth_key,
+      'Content-Type': 'application/json',
+      Authorization: this.auth_key
     });
   }
 
@@ -286,7 +286,7 @@ class ExecutionModel {
     try {
       this.conn_obj = new ConnHandler();
       this.trigger_payload = {
-        token: this.exec_token,
+        token: this.exec_token
       };
       this.setReqHeader();
 
@@ -298,7 +298,7 @@ class ExecutionModel {
         await this.conn_obj.makePostRequest({
           url: this.build_api,
           data: this.trigger_payload,
-          headers: this.request_header,
+          headers: this.request_header
         });
 
       if (axios.isAxiosError(resp)) {
@@ -310,10 +310,10 @@ class ExecutionModel {
           }
 
           const statusMessages: { [key: number]: string } = {
-            400: "Invalid Execution token for the specified env: ",
-            403: "Invalid Execution token for the specified env: ",
-            500: "The cloud server or the local machine is unavailable for the specified env: ",
-            504: "The server gateway timed-out for the specified env: ",
+            400: 'Invalid Execution token for the specified env: ',
+            403: 'Invalid Execution token for the specified env: ',
+            500: 'The cloud server or the local machine is unavailable for the specified env: ',
+            504: 'The server gateway timed-out for the specified env: '
           };
 
           if (status_code >= 400 && status_code < 600) {
@@ -349,7 +349,7 @@ class ExecutionModel {
           return null;
         }
       } else {
-        const response_data: any = "data" in resp ? resp.data : null;
+        const response_data: any = 'data' in resp ? resp.data : null;
         if (this.verbose_flag) {
           logger.info(`RESPONSE BODY: ${JSON.stringify(response_data)}`);
         }
@@ -371,7 +371,7 @@ class ExecutionModel {
   }
 
   public async checkExecStatus({
-    payload_flag,
+    payload_flag
   }: {
     payload_flag: boolean;
   }): Promise<any> {
@@ -380,7 +380,7 @@ class ExecutionModel {
       this.status_payload = {
         executionId: this.exec_id,
         customerId: this.customer_id,
-        projectId: this.project_id,
+        projectId: this.project_id
       };
       this.setReqHeader();
 
@@ -392,7 +392,7 @@ class ExecutionModel {
         await this.conn_obj.makePostRequest({
           url: this.status_api,
           data: this.status_payload,
-          headers: this.request_header,
+          headers: this.request_header
         });
 
       if (axios.isAxiosError(resp)) {
@@ -404,10 +404,10 @@ class ExecutionModel {
           }
 
           const statusMessages: { [key: number]: string } = {
-            400: "Logout and login again, Invalid Execution token for the specified env: ",
-            403: "Logout and login again, Invalid Authorization token for the specified env: ",
-            500: "The Pipeline Token is invalid for the specified env: ",
-            504: "The server gateway timed-out for the specified env: ",
+            400: 'Logout and login again, Invalid Execution token for the specified env: ',
+            403: 'Logout and login again, Invalid Authorization token for the specified env: ',
+            500: 'The Pipeline Token is invalid for the specified env: ',
+            504: 'The server gateway timed-out for the specified env: '
           };
 
           if (status_code >= 400 && status_code < 600) {
@@ -430,14 +430,14 @@ class ExecutionModel {
           return null;
         }
       } else {
-        const response_data: any = "data" in resp ? resp.data : null;
+        const response_data: any = 'data' in resp ? resp.data : null;
 
         if (response_data === null) {
           return null;
         } else if (response_data.success) {
           this.tcs_failed = 0;
           response_data.data.data.result.forEach((item: { result: string }) => {
-            if (item.result.toUpperCase() === "FAILED")
+            if (item.result.toUpperCase() === 'FAILED')
               this.tcs_failed = this.tcs_failed + 1;
           });
 
@@ -468,7 +468,7 @@ class ExecutionModel {
         customerId: this.customer_id,
         id: this.exec_id,
         userId: this.user_id,
-        userName: this.user_name,
+        userName: this.user_name
       };
       this.setReqHeader();
 
@@ -480,7 +480,7 @@ class ExecutionModel {
         await this.conn_obj.makePostRequest({
           url: this.kill_api,
           data: this.kill_payload,
-          headers: this.request_header,
+          headers: this.request_header
         });
 
       if (axios.isAxiosError(resp)) {
@@ -492,10 +492,10 @@ class ExecutionModel {
           }
 
           const statusMessages: { [key: number]: string } = {
-            400: "Invalid Execution token for the specified env: ",
-            403: "Invalid Execution token for the specified env: ",
-            500: "The cloud server or the local machine is unavailable for the specified env: ",
-            504: "The server gateway timed-out for the specified env: ",
+            400: 'Invalid Execution token for the specified env: ',
+            403: 'Invalid Execution token for the specified env: ',
+            500: 'The cloud server or the local machine is unavailable for the specified env: ',
+            504: 'The server gateway timed-out for the specified env: '
           };
 
           if (status_code >= 400 && status_code < 600) {
@@ -522,7 +522,7 @@ class ExecutionModel {
           return null;
         }
       } else {
-        const response_data: any = "data" in resp ? resp.data : null;
+        const response_data: any = 'data' in resp ? resp.data : null;
         if (this.verbose_flag) {
           logger.info(`RESPONSE BODY: ${JSON.stringify(response_data)}`);
         }

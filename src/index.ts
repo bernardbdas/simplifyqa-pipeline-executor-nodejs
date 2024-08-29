@@ -1,23 +1,23 @@
-import * as task_obj from "azure-pipelines-task-lib";
-import { ExecutionModel } from "@models/Execution.model.js";
-import { logger } from "@utils/logger.js";
-import { stat } from "fs";
+import * as task_obj from 'azure-pipelines-task-lib';
+import { ExecutionModel } from '@models/Execution.model';
+import { logger } from '@utils/logger';
+import { stat } from 'fs';
 
-const invalid_exec_token_msg: string = " ERR: The EXEC_TOKEN value is invalid";
+const invalid_exec_token_msg: string = ' ERR: The EXEC_TOKEN value is invalid';
 const invalid_env_msg: string =
-  " ERR: The APPURL value is invalid. (Resolving to default app url: https://simplifyqa.app)";
+  ' ERR: The APPURL value is invalid. (Resolving to default app url: https://simplifyqa.app)';
 const invalid_threshold_msg: string =
-  " ERR: The THRESHOLD value is invalid. (Resolving to default threshold: 100%)";
+  ' ERR: The THRESHOLD value is invalid. (Resolving to default threshold: 100%)';
 
-const exec_pass_status_msg: string = "Execution Passed!";
-const exec_fail_status_msg: string = "Execution Failed!";
+const exec_pass_status_msg: string = 'Execution Passed!';
+const exec_fail_status_msg: string = 'Execution Failed!';
 const exec_pass_with_warn_status_msg: string =
-  "Execution performed successfully with resolved values. Please change the values to avoid future warnings.";
+  'Execution performed successfully with resolved values. Please change the values to avoid future warnings.';
 
 async function gracefulShutdown({
   exec_obj,
   resFlag,
-  issues_flag,
+  issues_flag
 }: {
   exec_obj: ExecutionModel;
   resFlag: boolean;
@@ -29,7 +29,7 @@ async function gracefulShutdown({
     `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
   );
   console.log(
-    `${" ".repeat(
+    `${' '.repeat(
       27
     )}(Executed ${exec_obj.getExecutedTcs()} of ${exec_obj.getTotalTcs()} testcase(s), execution percentage: ${exec_obj
       .getExecPercent()
@@ -47,7 +47,7 @@ async function gracefulShutdown({
       totalSteps: number;
     }) => {
       console.log(
-        `${" ".repeat(27)}${item.tcCode}: ${
+        `${' '.repeat(27)}${item.tcCode}: ${
           item.tcName
         } | TESTCASE ${item.result.toUpperCase()} (total steps: ${
           item.totalSteps
@@ -65,7 +65,7 @@ async function gracefulShutdown({
   }
   if (exec_obj.getThreshold() <= exec_obj.getFailPercent()) {
     console.log(`${exec_fail_status_msg}`);
-    task_obj.setResult(task_obj.TaskResult.Failed, " Execution Failed!");
+    task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
     resFlag = false;
   }
 
@@ -92,15 +92,15 @@ async function gracefulShutdown({
     logger.info(`${exec_pass_with_warn_status_msg}`);
     task_obj.setResult(
       task_obj.TaskResult.SucceededWithIssues,
-      " Execution Succeded with Issues!"
+      ' Execution Succeded with Issues!'
     );
   } else {
     logger.info(`${exec_pass_status_msg}`);
-    task_obj.setResult(task_obj.TaskResult.Succeeded, " Execution Succeded!");
+    task_obj.setResult(task_obj.TaskResult.Succeeded, ' Execution Succeded!');
   }
 
   console.log(`REPORT URL: ${exec_obj.getReportUrl()}`);
-  console.log("*".repeat(51) + "EOF" + "*".repeat(51) + "\n");
+  console.log('*'.repeat(51) + 'EOF' + '*'.repeat(51) + '\n');
 
   if (resFlag) return process.exit(0);
   else return process.exit(1);
@@ -111,16 +111,16 @@ async function run() {
   let issues_flag: boolean = false;
 
   try {
-    const exec_token: string = task_obj.getInputRequired("EXECTOKEN");
-    let environment: string | undefined = task_obj.getInputRequired("APPURL");
+    const exec_token: string = task_obj.getInputRequired('EXECTOKEN');
+    let environment: string | undefined = task_obj.getInputRequired('APPURL');
     let threshold: number | string | undefined =
-      task_obj.getInputRequired("THRESHOLD");
-    let verbose: boolean | undefined = task_obj.getBoolInput("VERBOSE", false);
+      task_obj.getInputRequired('THRESHOLD');
+    let verbose: boolean | undefined = task_obj.getBoolInput('VERBOSE', false);
 
     if (exec_token.length != 88) {
       logger.info(invalid_exec_token_msg);
       task_obj.setResult(task_obj.TaskResult.Failed, invalid_exec_token_msg);
-      logger.info("*".repeat(51) + "EOF" + "*".repeat(51) + "\n");
+      logger.info('*'.repeat(51) + 'EOF' + '*'.repeat(51) + '\n');
       process.exit(1);
     }
 
@@ -128,12 +128,12 @@ async function run() {
       if (environment.length < 2) {
         issues_flag = true;
         logger.info(invalid_env_msg);
-        environment = "";
+        environment = '';
       }
     } else {
       issues_flag = true;
       logger.info(invalid_env_msg);
-      environment = "";
+      environment = '';
     }
 
     if (threshold != undefined) {
@@ -159,42 +159,42 @@ async function run() {
       issues_flag = true;
       verbose = false;
     }
-    logger.info("\n");
+    logger.info('\n');
     logger.info(
-      "**************************************  SIMPLIFYQA PIPELINE EXECUTOR  **************************************"
+      '**************************************  SIMPLIFYQA PIPELINE EXECUTOR  **************************************'
     );
-    logger.info("\n\n\nThe Set Parameters are:");
+    logger.info('\n\n\nThe Set Parameters are:');
     // logger.info( "=".repeat(105));
     exec_obj = new ExecutionModel({
       exec_token: exec_token,
       env: environment,
       threshold: threshold,
-      verbose: verbose,
+      verbose: verbose
     });
 
     // GRACEFUL SHUTDOWN ON USER INTERRUPT
-    process.on("SIGTERM", () => {
-      console.log("EXECUTION STATUS: GRACEFUL SHUTDOWN ON USER INTERRUPT.");
+    process.on('SIGTERM', () => {
+      console.log('EXECUTION STATUS: GRACEFUL SHUTDOWN ON USER INTERRUPT.');
       gracefulShutdown({
         exec_obj: exec_obj,
         resFlag: true,
-        issues_flag: issues_flag,
+        issues_flag: issues_flag
       });
     });
 
     // GRACEFUL SHUTDOWN ON SYSTEM TERMINATION
-    process.on("SIGINT", () => {
-      console.log("EXECUTION STATUS: GRACEFUL SHUTDOWN ON SYSTEM TERMINATION.");
+    process.on('SIGINT', () => {
+      console.log('EXECUTION STATUS: GRACEFUL SHUTDOWN ON SYSTEM TERMINATION.');
       gracefulShutdown({
         exec_obj: exec_obj,
         resFlag: true,
-        issues_flag: issues_flag,
+        issues_flag: issues_flag
       });
     });
 
     logger.info(
-      "Execution Token: " +
-        "*".repeat(70) +
+      'Execution Token: ' +
+        '*'.repeat(70) +
         exec_obj
           .getExecToken()
           .slice(
@@ -202,18 +202,18 @@ async function run() {
             exec_obj.getExecToken().length
           )
     );
-    logger.info("App Url: " + exec_obj.getAppUrl());
-    logger.info("Threshold: " + exec_obj.getThreshold() + " %");
-    logger.info("Verbose: " + exec_obj.getVerbose());
-    logger.info("*".repeat(51) + "*".repeat(51) + "\n\n\n");
+    logger.info('App Url: ' + exec_obj.getAppUrl());
+    logger.info('Threshold: ' + exec_obj.getThreshold() + ' %');
+    logger.info('Verbose: ' + exec_obj.getVerbose());
+    logger.info('*'.repeat(51) + '*'.repeat(51) + '\n\n\n');
 
     let triggered: any = await exec_obj.startExec();
 
     if (triggered === null && !exec_obj.getRetry()) {
       logger.info(`${exec_fail_status_msg}`);
-      task_obj.setResult(task_obj.TaskResult.Failed, " Execution Failed!");
-      logger.info("\n");
-      logger.info("*".repeat(51) + "EOF" + "*".repeat(51) + "\n");
+      task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
+      logger.info('\n');
+      logger.info('*'.repeat(51) + 'EOF' + '*'.repeat(51) + '\n');
       process.exit(1);
     }
 
@@ -227,7 +227,7 @@ async function run() {
       status = await new Promise((resolve) => {
         setTimeout(async () => {
           const newStatus = await exec_obj.checkExecStatus({
-            payload_flag: false,
+            payload_flag: false
           });
           resolve(newStatus);
         }, 5000);
@@ -239,7 +239,7 @@ async function run() {
       `EXECUTION STATUS: Execution IN-PROGRESS for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
     );
     logger.info(
-      `${" ".repeat(
+      `${' '.repeat(
         27
       )}(Executed ${exec_obj.getExecutedTcs()} of ${exec_obj.getTotalTcs()} testcase(s), execution percentage: ${exec_obj
         .getExecPercent()
@@ -258,7 +258,7 @@ async function run() {
         totalSteps: number;
       }) => {
         logger.info(
-          `${" ".repeat(27)}${item.tcCode}: ${
+          `${' '.repeat(27)}${item.tcCode}: ${
             item.tcName
           } | TESTCASE ${item.result.toUpperCase()} (total steps: ${
             item.totalSteps
@@ -278,7 +278,7 @@ async function run() {
     }
 
     while (
-      exec_obj.getExecStatus() === "INPROGRESS" &&
+      exec_obj.getExecStatus() === 'INPROGRESS' &&
       exec_obj.getThreshold() > exec_obj.getFailPercent()
     ) {
       let curr_tcs = exec_obj.getExecutedTcs();
@@ -286,7 +286,7 @@ async function run() {
       status = await new Promise((resolve) => {
         setTimeout(async () => {
           const newStatus = await exec_obj.checkExecStatus({
-            payload_flag: false,
+            payload_flag: false
           });
           resolve(newStatus);
         }, 5000);
@@ -296,7 +296,7 @@ async function run() {
           `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
         );
         logger.info(
-          `${" ".repeat(
+          `${' '.repeat(
             27
           )}(Executed ${exec_obj.getExecutedTcs()} of ${exec_obj.getTotalTcs()} testcase(s), execution percentage: ${exec_obj
             .getExecPercent()
@@ -316,7 +316,7 @@ async function run() {
             totalSteps: number;
           }) => {
             logger.info(
-              `${" ".repeat(27)}${item.tcCode}: ${
+              `${' '.repeat(27)}${item.tcCode}: ${
                 item.tcName
               } | TESTCASE ${item.result.toUpperCase()} (total steps: ${
                 item.totalSteps
@@ -349,7 +349,7 @@ async function run() {
         `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
       );
       logger.info(
-        `${" ".repeat(
+        `${' '.repeat(
           27
         )}(Executed ${exec_obj.getExecutedTcs()} of ${exec_obj.getTotalTcs()} testcase(s), execution percentage: ${exec_obj
           .getExecPercent()
@@ -369,7 +369,7 @@ async function run() {
           totalSteps: number;
         }) => {
           logger.info(
-            `${" ".repeat(27)}${item.tcCode}: ${
+            `${' '.repeat(27)}${item.tcCode}: ${
               item.tcName
             } | TESTCASE ${item.result.toUpperCase()} (total steps: ${
               item.totalSteps
@@ -389,7 +389,7 @@ async function run() {
       }
 
       logger.info(`${exec_fail_status_msg}`);
-      task_obj.setResult(task_obj.TaskResult.Failed, " Execution Failed!");
+      task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
       resFlag = false;
 
       let kill_status: any = null;
@@ -420,7 +420,7 @@ async function run() {
         `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
       );
       logger.info(
-        `${" ".repeat(
+        `${' '.repeat(
           27
         )}(Executed ${exec_obj.getExecutedTcs()} of ${exec_obj.getTotalTcs()} testcase(s), execution percentage: ${exec_obj
           .getExecPercent()
@@ -440,7 +440,7 @@ async function run() {
           totalSteps: number;
         }) => {
           logger.info(
-            `${" ".repeat(27)}${item.tcCode}: ${
+            `${' '.repeat(27)}${item.tcCode}: ${
               item.tcName
             } | TESTCASE ${item.result.toUpperCase()} (total steps: ${
               item.totalSteps
@@ -462,19 +462,19 @@ async function run() {
         logger.info(`${exec_pass_with_warn_status_msg}`);
         task_obj.setResult(
           task_obj.TaskResult.SucceededWithIssues,
-          " Execution Succeded with Issues!"
+          ' Execution Succeded with Issues!'
         );
       } else {
         logger.info(`${exec_pass_status_msg}`);
         task_obj.setResult(
           task_obj.TaskResult.Succeeded,
-          " Execution Succeded!"
+          ' Execution Succeded!'
         );
       }
     }
 
     logger.info(`REPORT URL: ${exec_obj.getReportUrl()}`);
-    logger.info("*".repeat(51) + "EOF" + "*".repeat(51) + "\n");
+    logger.info('*'.repeat(51) + 'EOF' + '*'.repeat(51) + '\n');
 
     if (resFlag) process.exit(0);
     else process.exit(1);
