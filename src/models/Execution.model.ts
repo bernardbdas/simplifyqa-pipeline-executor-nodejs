@@ -50,6 +50,7 @@ class ExecutionModel {
   private report_url: string = '';
 
   private exec_status: string = '';
+  private isKilled: boolean = false;
 
   constructor({
     exec_token,
@@ -244,6 +245,14 @@ class ExecutionModel {
 
   public getExecStatus(): string {
     return this.exec_status;
+  }
+
+  protected setIsKilled(isKilled: boolean): void {
+    this.isKilled = isKilled;
+  }
+
+  public getisKilled(): boolean {
+    return this.isKilled;
   }
 
   protected setReportUrl(report_url: string): void {
@@ -446,6 +455,7 @@ class ExecutionModel {
           this.setSuiteId(response_data.data.data.suiteId);
           this.setReportUrl(response_data.data.data.reporturl);
           this.setExecStatus(response_data.data.data.execution);
+          this.setIsKilled(response_data.data.data.isKilled);
           this.setUserId(response_data.data.data.userId);
           this.setUserName(response_data.data.data.username);
           this.setFailPercent();
