@@ -455,7 +455,7 @@ class ExecutionModel {
           this.setSuiteId(response_data.data.data.suiteId);
           this.setReportUrl(response_data.data.data.reporturl);
           this.setExecStatus(response_data.data.data.execution);
-          this.setIsKilled(response_data.data.data.isKilled);
+          this.setIsKilled(response_data.data.data.executionKilled || false);
           this.setUserId(response_data.data.data.userId);
           this.setUserName(response_data.data.data.username);
           this.setFailPercent();

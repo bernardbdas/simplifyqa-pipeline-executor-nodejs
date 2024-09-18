@@ -280,7 +280,7 @@ async function run() {
     while (
       exec_obj.getExecStatus() === 'INPROGRESS' &&
       exec_obj.getThreshold() > exec_obj.getFailPercent() &&
-      exec_obj.getisKilled()
+      !exec_obj.getisKilled()
     ) {
       let curr_tcs = exec_obj.getExecutedTcs();
 
@@ -515,11 +515,18 @@ async function run() {
           ' Execution Succeded with Issues!'
         );
       } else {
-        logger.info(`${exec_pass_status_msg}`);
-        task_obj.setResult(
-          task_obj.TaskResult.Succeeded,
-          ' Execution Succeded!'
-        );
+        if (exec_obj.getFailPercent() > 0.0) {
+          logger.info(`${exec_pass_status_msg}`);
+          task_obj.setResult(
+            task_obj.TaskResult.Succeeded,
+            ' Execution Succeded!'
+          );
+          resFlag = true;
+        } else {
+          logger.info(`${exec_fail_status_msg}`);
+          task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
+          resFlag = false;
+        }
       }
     }
 
