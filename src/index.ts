@@ -391,6 +391,28 @@ async function run() {
         `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()} was terminated.`
       );
 
+      let kill_status: any = (await exec_obj.killExec()) || null;
+
+      if (kill_status === null) {
+        logger.info(
+          `EXECUTION STATUS: FAILED to explicitly kill the execution!`
+        );
+      } else {
+        logger.info(
+          `EXECUTION STATUS: SUCCESSFUL to explicitly kill the execution!`
+        );
+      }
+
+      if (exec_obj.getVerbose()) {
+        logger.info(
+          `REQUEST BODY: ${JSON.stringify(exec_obj.getKillPayload())}`
+        );
+      }
+
+      if (exec_obj.getVerbose()) {
+        logger.info(`RESPONSE BODY: ${JSON.stringify(kill_status)}`);
+      }
+
       logger.info(`${exec_fail_status_msg}`);
       task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
       resFlag = false;
@@ -528,6 +550,24 @@ async function run() {
           resFlag = false;
         }
       }
+    }
+
+    let kill_status: any = (await exec_obj.killExec()) || null;
+
+    if (kill_status === null) {
+      logger.info(`EXECUTION STATUS: FAILED to explicitly kill the execution!`);
+    } else {
+      logger.info(
+        `EXECUTION STATUS: SUCCESSFUL to explicitly kill the execution!`
+      );
+    }
+
+    if (exec_obj.getVerbose()) {
+      logger.info(`REQUEST BODY: ${JSON.stringify(exec_obj.getKillPayload())}`);
+    }
+
+    if (exec_obj.getVerbose()) {
+      logger.info(`RESPONSE BODY: ${JSON.stringify(kill_status)}`);
     }
 
     logger.info(`REPORT URL: ${exec_obj.getReportUrl()}`);
