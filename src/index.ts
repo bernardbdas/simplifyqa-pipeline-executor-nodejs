@@ -177,7 +177,7 @@ async function run() {
       console.log('EXECUTION STATUS: GRACEFUL SHUTDOWN ON USER INTERRUPT.');
       gracefulShutdown({
         exec_obj: exec_obj,
-        resFlag: true,
+        resFlag: false,
         issues_flag: issues_flag
       });
     });
@@ -187,7 +187,7 @@ async function run() {
       console.log('EXECUTION STATUS: GRACEFUL SHUTDOWN ON SYSTEM TERMINATION.');
       gracefulShutdown({
         exec_obj: exec_obj,
-        resFlag: true,
+        resFlag: false,
         issues_flag: issues_flag
       });
     });
