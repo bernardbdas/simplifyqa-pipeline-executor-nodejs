@@ -345,7 +345,10 @@ async function run() {
     }
 
     let resFlag = true;
-    if (!exec_obj.getisKilled()) {
+    if (
+      exec_obj.getThreshold() <= exec_obj.getFailPercent() ||
+      !exec_obj.getisKilled()
+    ) {
       logger.info(
         `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
       );
@@ -379,94 +382,21 @@ async function run() {
         }
       );
 
-      if (exec_obj.getVerbose())
+      if (exec_obj.getVerbose()) {
         logger.info(
           `REQUEST BODY: ${JSON.stringify(exec_obj.getStatusPayload())}`
         );
+      }
 
-      if (exec_obj.getVerbose())
+      if (exec_obj.getVerbose()) {
         logger.info(`RESPONSE BODY: ${JSON.stringify(status)}`);
+      }
 
-      logger.info(
-        `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()} was terminated.`
-      );
+      logger.info(`${exec_fail_status_msg}`);
+      task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
+      resFlag = false;
 
       let kill_status: any = (await exec_obj.killExec()) || null;
-
-      if (kill_status === null) {
-        logger.info(
-          `EXECUTION STATUS: FAILED to explicitly kill the execution!`
-        );
-      } else {
-        logger.info(
-          `EXECUTION STATUS: SUCCESSFUL to explicitly kill the execution!`
-        );
-      }
-
-      if (exec_obj.getVerbose()) {
-        logger.info(
-          `REQUEST BODY: ${JSON.stringify(exec_obj.getKillPayload())}`
-        );
-      }
-
-      if (exec_obj.getVerbose()) {
-        logger.info(`RESPONSE BODY: ${JSON.stringify(kill_status)}`);
-      }
-
-      logger.info(`${exec_fail_status_msg}`);
-      task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
-      resFlag = false;
-    } else if (exec_obj.getThreshold() <= exec_obj.getFailPercent()) {
-      logger.info(
-        `EXECUTION STATUS: Execution ${exec_obj.getExecStatus()} for Suite ID: SU-${exec_obj.getCustId()}${exec_obj.getSuiteId()}`
-      );
-      logger.info(
-        `${' '.repeat(
-          27
-        )}(Executed ${exec_obj.getExecutedTcs()} of ${exec_obj.getTotalTcs()} testcase(s), execution percentage: ${exec_obj
-          .getExecPercent()
-          .toFixed(2)} %, fail percentage: ${exec_obj
-          .getFailPercent()
-          .toFixed(2)} %, threshold: ${exec_obj
-          .getThreshold()
-          .toFixed(2)} % )\n`
-      );
-      results_array = status.data.data.result;
-
-      results_array.forEach(
-        (item: {
-          tcCode: string;
-          tcName: string;
-          result: string;
-          totalSteps: number;
-        }) => {
-          logger.info(
-            `${' '.repeat(27)}${item.tcCode}: ${
-              item.tcName
-            } | TESTCASE ${item.result.toUpperCase()} (total steps: ${
-              item.totalSteps
-            })`
-          );
-        }
-      );
-
-      if (exec_obj.getVerbose()) {
-        logger.info(
-          `REQUEST BODY: ${JSON.stringify(exec_obj.getStatusPayload())}`
-        );
-      }
-
-      if (exec_obj.getVerbose()) {
-        logger.info(`RESPONSE BODY: ${JSON.stringify(status)}`);
-      }
-
-      logger.info(`${exec_fail_status_msg}`);
-      task_obj.setResult(task_obj.TaskResult.Failed, ' Execution Failed!');
-      resFlag = false;
-
-      let kill_status: any = null;
-      if (100.0 <= exec_obj.getFailPercent())
-        kill_status = await exec_obj.killExec();
 
       if (kill_status === null) {
         logger.info(

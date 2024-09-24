@@ -291,6 +291,15 @@ class ExecutionModel {
     return this.kill_payload;
   }
 
+  protected setKillPayload(): void {
+    this.kill_payload = {
+      customerId: this.customer_id,
+      id: this.exec_id,
+      userId: this.user_id,
+      userName: this.user_name
+    };
+  }
+
   public async startExec(): Promise<any> {
     try {
       this.conn_obj = new ConnHandler();
@@ -460,6 +469,7 @@ class ExecutionModel {
           this.setUserName(response_data.data.data.username);
           this.setFailPercent();
           this.setExecPercent();
+          this.setKillPayload();
 
           return response_data;
         }
@@ -474,12 +484,6 @@ class ExecutionModel {
   public async killExec(): Promise<any> {
     try {
       this.conn_obj = new ConnHandler();
-      this.kill_payload = {
-        customerId: this.customer_id,
-        id: this.exec_id,
-        userId: this.user_id,
-        userName: this.user_name
-      };
       this.setReqHeader();
 
       if (this.verbose_flag) {
